@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meal Planner</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="header-content">
+        <div class="brand">
+          <span class="brand-icon" aria-hidden="true">🥗</span>
+          <div>
+            <h1>Meal Planner</h1>
+            <p class="subtitle">Plan your weekly dishes effortlessly</p>
+          </div>
+        </div>
+        <div class="counter-badge" id="mealCountBadge" aria-live="polite">
+          <span class="counter-number" id="mealCount">0</span>
+          <span class="counter-label">Meals Planned</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Add Meal Card -->
+      <section class="card form-card" aria-labelledby="addMealHeading">
+        <h2 id="addMealHeading">Add a New Meal</h2>
+        <form id="mealForm" novalidate>
+          <div class="form-grid">
+            <div class="form-group full-width">
+              <label for="mealName">Meal Name <span class="required">*</span></label>
+              <input 
+                type="text" 
+                id="mealName" 
+                name="mealName" 
+                placeholder="e.g., Grilled Salmon with Asparagus" 
+                required 
+                maxlength="80"
+                autocomplete="off"
+              >
+              <span class="error-msg" id="mealNameError">Please enter a meal name.</span>
+            </div>
+
+            <div class="form-group">
+              <label for="mealDay">Day <span class="required">*</span></label>
+              <select id="mealDay" name="mealDay" required>
+                <option value="" disabled selected>Select a day</option>
+                <option value="Monday">Monday</option>
+                <option value="Tuesday">Tuesday</option>
+                <option value="Wednesday">Wednesday</option>
+                <option value="Thursday">Thursday</option>
+                <option value="Friday">Friday</option>
+                <option value="Saturday">Saturday</option>
+                <option value="Sunday">Sunday</option>
+              </select>
+              <span class="error-msg" id="mealDayError">Please choose a day.</span>
+            </div>
+
+            <div class="form-group">
+              <label for="mealType">Meal Type <span class="required">*</span></label>
+              <select id="mealType" name="mealType" required>
+                <option value="" disabled selected>Select type</option>
+                <option value="Breakfast">Breakfast</option>
+                <option value="Lunch">Lunch</option>
+                <option value="Dinner">Dinner</option>
+                <option value="Snack">Snack</option>
+              </select>
+              <span class="error-msg" id="mealTypeError">Please choose a meal type.</span>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary" id="saveMealBtn">
+              <span class="btn-icon">＋</span> Add Meal
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Meal List Section -->
+      <section class="card list-card" aria-labelledby="mealsListHeading">
+        <div class="list-header">
+          <h2 id="mealsListHeading">Planned Meals</h2>
+          
+          <!-- Search Control -->
+          <div class="search-wrapper">
+            <span class="search-icon" aria-hidden="true">🔍</span>
+            <input 
+              type="search" 
+              id="searchInput" 
+              placeholder="Search by name, day, or type..." 
+              aria-label="Search meals"
+              autocomplete="off"
+            >
+            <button type="button" id="clearSearchBtn" class="clear-search-btn" title="Clear search" aria-label="Clear search" hidden>✕</button>
+          </div>
+        </div>
+
+        <!-- Meals Container -->
+        <div id="mealsContainer" class="meals-list" role="list">
+          <!-- Dynamically populated via JS -->
+        </div>
+
+        <!-- Empty State Message -->
+        <div id="emptyState" class="empty-state" hidden>
+          <div class="empty-icon">🍲</div>
+          <h3>No meals planned yet</h3>
+          <p>Your meal schedule is clear! Fill in the form above to add your delicious meals for the week.</p>
+        </div>
+
+        <!-- No Search Results Message -->
+        <div id="noResultsState" class="empty-state" hidden>
+          <div class="empty-icon">🔎</div>
+          <h3>No matching meals</h3>
+          <p>We couldn't find any meals matching your search. Try another keyword or clear the search bar.</p>
+        </div>
+      </section>
+    </main>
+
+    <!-- Edit Meal Modal -->
+    <div id="editModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="editModalHeading" hidden>
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3 id="editModalHeading">Edit Meal</h3>
+          <button type="button" class="close-btn" id="closeEditModalBtn" aria-label="Close modal">✕</button>
+        </div>
+        <form id="editMealForm" novalidate>
+          <input type="hidden" id="editMealId">
+          <div class="form-group full-width">
+            <label for="editMealName">Meal Name <span class="required">*</span></label>
+            <input type="text" id="editMealName" required maxlength="80" autocomplete="off">
+            <span class="error-msg" id="editMealNameError">Please enter a meal name.</span>
+          </div>
+
+          <div class="form-group full-width">
+            <label for="editMealDay">Day <span class="required">*</span></label>
+            <select id="editMealDay" required>
+              <option value="Monday">Monday</option>
+              <option value="Tuesday">Tuesday</option>
+              <option value="Wednesday">Wednesday</option>
+              <option value="Thursday">Thursday</option>
+              <option value="Friday">Friday</option>
+              <option value="Saturday">Saturday</option>
+              <option value="Sunday">Sunday</option>
+            </select>
+          </div>
+
+          <div class="form-group full-width">
+            <label for="editMealType">Meal Type <span class="required">*</span></label>
+            <select id="editMealType" required>
+              <option value="Breakfast">Breakfast</option>
+              <option value="Lunch">Lunch</option>
+              <option value="Dinner">Dinner</option>
+              <option value="Snack">Snack</option>
+            </select>
+          </div>
+
+          <div class="modal-actions">
+            <button type="button" class="btn btn-secondary" id="cancelEditBtn">Cancel</button>
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Confirm Delete Modal -->
+    <div id="deleteModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="deleteModalHeading" hidden>
+      <div class="modal-card modal-confirm">
+        <div class="confirm-icon">🗑️</div>
+        <h3 id="deleteModalHeading">Delete Meal?</h3>
+        <p>Are you sure you want to remove <strong id="deleteMealName">this meal</strong> from your planner? This cannot be undone.</p>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary" id="cancelDeleteBtn">Cancel</button>
+          <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Yes, Delete</button>
+        </div>
+      </div>
+    </div>
+
+    <footer class="app-footer">
+      <p>Meals saved automatically to your browser.</p>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
