@@ -4,6 +4,8 @@ A clean, responsive, and minimalist Meal Planner web app built with vanilla HTML
 
 No frameworks, no backend, no server, and no database required — all data is automatically stored in the browser using `localStorage`.
 
+**🌐 Live Demo**: [https://dollpea1.github.io/meal-planner/](https://dollpea1.github.io/meal-planner/)
+
 ## ✨ Features
 
 - **Add Meals**: Easily plan meals with Meal Name, Day of the week, and Meal Type (*Breakfast*, *Lunch*, *Dinner*, *Snack*).
@@ -39,3 +41,4 @@ cd meal-planner
 ## 📄 License
 
 MIT
+
