@@ -8,7 +8,7 @@ No frameworks, no backend, no server, and no database required — all data is a
 
 ## ✨ Features
 
-- **Add Meals**: Easily plan meals with Meal Name, Day of the week, and Meal Type (*Breakfast*, *Lunch*, *Dinner*, *Snack*).
+- **Add Meals**: Easily plan meals with Meal Name, Day of the week, Meal Type (*Breakfast*, *Lunch*, *Dinner*, *Snack*), and Cooking Time (in minutes).
 - **Organized List**: View meals neatly sorted by day of the week and meal type with color-coded badges.
 - **Edit Meals**: Update meal details anytime through a clean modal dialog.
 - **Delete Confirmation**: Prevent accidental deletions with a confirmation dialog.

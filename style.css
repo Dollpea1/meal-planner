@@ -168,7 +168,7 @@ body {
    ========================================================================== */
 .form-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 1rem;
 }
 
@@ -194,6 +194,7 @@ label {
 
 input[type="text"],
 input[type="search"],
+input[type="number"],
 select {
   width: 100%;
   padding: 0.75rem 0.875rem;
@@ -452,6 +453,15 @@ select.input-error {
   background-color: var(--type-snack-bg);
   color: var(--type-snack);
   border: 1px solid rgba(236, 72, 153, 0.2);
+}
+
+.badge-time {
+  background-color: #f8fafc;
+  color: #475569;
+  border: 1px solid #cbd5e1;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
 }
 
 .meal-item-title {

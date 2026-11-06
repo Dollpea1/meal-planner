@@ -31,6 +31,7 @@
   const mealNameInput = document.getElementById('mealName');
   const mealDaySelect = document.getElementById('mealDay');
   const mealTypeSelect = document.getElementById('mealType');
+  const mealCookingTimeInput = document.getElementById('mealCookingTime');
 
   const mealCountEl = document.getElementById('mealCount');
   const mealsContainer = document.getElementById('mealsContainer');
@@ -47,6 +48,7 @@
   const editMealName = document.getElementById('editMealName');
   const editMealDay = document.getElementById('editMealDay');
   const editMealType = document.getElementById('editMealType');
+  const editMealCookingTime = document.getElementById('editMealCookingTime');
   const closeEditModalBtn = document.getElementById('closeEditModalBtn');
   const cancelEditBtn = document.getElementById('cancelEditBtn');
 
@@ -106,10 +108,12 @@
     // Filter meals if search term is provided
     const filteredMeals = meals.filter(meal => {
       if (!searchTerm) return true;
+      const timeStr = meal.cookingTime ? `${meal.cookingTime} mins min` : '';
       return (
         meal.name.toLowerCase().includes(searchTerm) ||
         meal.day.toLowerCase().includes(searchTerm) ||
-        meal.type.toLowerCase().includes(searchTerm)
+        meal.type.toLowerCase().includes(searchTerm) ||
+        timeStr.toLowerCase().includes(searchTerm)
       );
     });
 
@@ -167,6 +171,14 @@
 
     tags.appendChild(dayBadge);
     tags.appendChild(typeBadge);
+
+    // Cooking Time badge (if specified)
+    if (meal.cookingTime) {
+      const timeBadge = document.createElement('span');
+      timeBadge.className = 'badge badge-time';
+      timeBadge.textContent = `⏱️ ${meal.cookingTime} min${meal.cookingTime === 1 ? '' : 's'}`;
+      tags.appendChild(timeBadge);
+    }
 
     // Meal Title
     const title = document.createElement('h3');
@@ -228,11 +240,14 @@
       return;
     }
 
+    const cookingTimeVal = mealCookingTimeInput.value.trim();
+
     const newMeal = {
       id: Date.now().toString(36) + Math.random().toString(36).substring(2, 6),
       name: mealNameInput.value.trim(),
       day: mealDaySelect.value,
       type: mealTypeSelect.value,
+      cookingTime: cookingTimeVal ? parseInt(cookingTimeVal, 10) : null,
       createdAt: Date.now()
     };
 
@@ -280,6 +295,7 @@
     editMealName.value = meal.name;
     editMealDay.value = meal.day;
     editMealType.value = meal.type;
+    editMealCookingTime.value = meal.cookingTime || '';
 
     editMealName.classList.remove('input-error');
     editModal.hidden = false;
@@ -304,9 +320,11 @@
     const mealIndex = meals.findIndex(m => m.id === targetId);
 
     if (mealIndex !== -1) {
+      const editCookingVal = editMealCookingTime.value.trim();
       meals[mealIndex].name = nameVal;
       meals[mealIndex].day = editMealDay.value;
       meals[mealIndex].type = editMealType.value;
+      meals[mealIndex].cookingTime = editCookingVal ? parseInt(editCookingVal, 10) : null;
 
       saveMeals();
       renderMeals();

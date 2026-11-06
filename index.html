@@ -72,6 +72,18 @@
               </select>
               <span class="error-msg" id="mealTypeError">Please choose a meal type.</span>
             </div>
+
+            <div class="form-group">
+              <label for="mealCookingTime">Cooking Time (mins)</label>
+              <input 
+                type="number" 
+                id="mealCookingTime" 
+                name="mealCookingTime" 
+                placeholder="e.g., 25" 
+                min="1" 
+                max="720"
+              >
+            </div>
           </div>
 
           <div class="form-actions">
@@ -158,6 +170,11 @@
               <option value="Dinner">Dinner</option>
               <option value="Snack">Snack</option>
             </select>
+          </div>
+
+          <div class="form-group full-width">
+            <label for="editMealCookingTime">Cooking Time (mins)</label>
+            <input type="number" id="editMealCookingTime" min="1" max="720" placeholder="e.g., 25">
           </div>
 
           <div class="modal-actions">
