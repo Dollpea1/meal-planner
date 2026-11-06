@@ -121,21 +121,28 @@
     mealsContainer.innerHTML = '';
 
     if (meals.length === 0) {
-      // Overall empty state
+      // Overall empty state (no meals exist)
       emptyStateEl.hidden = false;
+      emptyStateEl.style.display = 'flex';
       noResultsStateEl.hidden = true;
+      noResultsStateEl.style.display = 'none';
       return;
     }
 
+    // At least one meal exists: empty state must always be hidden
     emptyStateEl.hidden = true;
+    emptyStateEl.style.display = 'none';
 
     if (filteredMeals.length === 0) {
-      // Search gave no results
+      // Search is active but matched no meals
       noResultsStateEl.hidden = false;
+      noResultsStateEl.style.display = 'flex';
       return;
     }
 
+    // Matching meals found: no results state must be hidden
     noResultsStateEl.hidden = true;
+    noResultsStateEl.style.display = 'none';
 
     // Sort filtered meals for neat weekly presentation
     const sorted = sortMeals(filteredMeals);

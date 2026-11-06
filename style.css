@@ -490,6 +490,11 @@ select.input-error {
   justify-content: center;
 }
 
+.empty-state[hidden],
+[hidden] {
+  display: none !important;
+}
+
 .empty-icon {
   font-size: 3rem;
   margin-bottom: 0.75rem;
